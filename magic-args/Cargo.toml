@@ -1,0 +1,26 @@
+[package]
+name = "magic-args"
+version = "0.1.0"
+authors = [ "threadexio" ]
+edition = "2024"
+description = '''
+"Magic" declarative-style function arguments.
+'''
+documentation = "https://docs.rs/magic-args"
+readme = "README.md"
+homepage = "https://github.com/threadexio/magic-args-rs"
+repository = "https://github.com/threadexio/magic-args-rs"
+license = "MIT"
+keywords = [ "magic", "function", "argument" ]
+categories = [ "rust-patterns", "no-std" ]
+
+[package.metadata.docs.rs]
+all-features = true
+rustc-args = [ "--cfg", "docsrs" ]
+rustdoc-args = [ "--cfg", "docsrs", "--html-in-header", "./src/docs-header.html" ]
+
+[dependencies]
+magic-args-derive = { version = "0.1.0", path = "../magic-args-derive", optional = true }
+
+[features]
+derive = ["dep:magic-args-derive"]

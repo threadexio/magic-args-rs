@@ -1,0 +1,23 @@
+[package]
+name = "magic-args-derive"
+version = "0.1.0"
+authors = [ "threadexio" ]
+edition = "2024"
+description = '''
+Derive macros for magic-args.
+'''
+documentation = "https://docs.rs/magic-args"
+readme = "README.md"
+homepage = "https://github.com/threadexio/magic-args-rs"
+repository = "https://github.com/threadexio/magic-args-rs"
+license = "MIT"
+keywords = [ "magic", "function", "argument" ]
+categories = [ "rust-patterns", "no-std" ]
+
+[lib]
+proc-macro = true
+
+[dependencies]
+proc-macro2 = "1"
+quote = "1"
+syn = { version = "2", features = ["extra-traits"] }
