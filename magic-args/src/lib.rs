@@ -291,7 +291,7 @@ where
     f.call(args)
 }
 
-#[cfg(test)]
+#[cfg(all(test, feature = "derive"))]
 mod tests {
     use super::*;
 
