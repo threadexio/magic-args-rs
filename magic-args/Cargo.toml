@@ -24,3 +24,5 @@ magic-args-derive = { version = "0.1.0", path = "../magic-args-derive", optional
 
 [features]
 derive = ["dep:magic-args-derive"]
+
+default = ["derive"]

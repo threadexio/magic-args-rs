@@ -150,6 +150,67 @@ where
     }
 }
 
+#[doc(hidden)]
+pub mod __private {
+    #[derive(Clone)]
+    pub struct Tagged<T, const N: usize>(pub T);
+}
+
+use self::__private::*;
+
+macro_rules! impl_args_tuple {
+    ($($idx:tt: $t:ident),*) => {
+        impl_args_tuple!(@impl [$($idx: $t),*]: $(($idx, $t))*);
+    };
+    (@impl [$($_idx:tt: $_t:ident),*]:) => {};
+    (@impl [$($_idx:tt: $_t:ident),*]: ($idx:tt, $t:ident) $($tail:tt)*) => {
+        impl<$($_t,)*> Args<Tagged<$t, $idx>> for ($($_t,)*)
+        where
+            $t: Clone
+        {
+            fn get(&self) -> Tagged<$t, $idx> {
+                Tagged(self.$idx.clone())
+            }
+        }
+
+        impl_args_tuple!(@impl [$($_idx: $_t),*]: $($tail)*);
+    };
+}
+
+impl_args_tuple! {}
+impl_args_tuple! { 0: T0 }
+impl_args_tuple! { 0: T0, 1: T1 }
+impl_args_tuple! { 0: T0, 1: T1, 2: T2 }
+impl_args_tuple! { 0: T0, 1: T1, 2: T2, 3: T3 }
+impl_args_tuple! { 0: T0, 1: T1, 2: T2, 3: T3, 4: T4 }
+impl_args_tuple! { 0: T0, 1: T1, 2: T2, 3: T3, 4: T4, 5: T5 }
+impl_args_tuple! { 0: T0, 1: T1, 2: T2, 3: T3, 4: T4, 5: T5, 6: T6 }
+impl_args_tuple! { 0: T0, 1: T1, 2: T2, 3: T3, 4: T4, 5: T5, 6: T6, 7: T7 }
+impl_args_tuple! { 0: T0, 1: T1, 2: T2, 3: T3, 4: T4, 5: T5, 6: T6, 7: T7, 8: T8 }
+impl_args_tuple! { 0: T0, 1: T1, 2: T2, 3: T3, 4: T4, 5: T5, 6: T6, 7: T7, 8: T8, 9: T9 }
+impl_args_tuple! { 0: T0, 1: T1, 2: T2, 3: T3, 4: T4, 5: T5, 6: T6, 7: T7, 8: T8, 9: T9, 10: T10 }
+impl_args_tuple! { 0: T0, 1: T1, 2: T2, 3: T3, 4: T4, 5: T5, 6: T6, 7: T7, 8: T8, 9: T9, 10: T10, 11: T11 }
+impl_args_tuple! { 0: T0, 1: T1, 2: T2, 3: T3, 4: T4, 5: T5, 6: T6, 7: T7, 8: T8, 9: T9, 10: T10, 11: T11, 12: T12 }
+impl_args_tuple! { 0: T0, 1: T1, 2: T2, 3: T3, 4: T4, 5: T5, 6: T6, 7: T7, 8: T8, 9: T9, 10: T10, 11: T11, 12: T12, 13: T13 }
+impl_args_tuple! { 0: T0, 1: T1, 2: T2, 3: T3, 4: T4, 5: T5, 6: T6, 7: T7, 8: T8, 9: T9, 10: T10, 11: T11, 12: T12, 13: T13, 14: T14 }
+impl_args_tuple! { 0: T0, 1: T1, 2: T2, 3: T3, 4: T4, 5: T5, 6: T6, 7: T7, 8: T8, 9: T9, 10: T10, 11: T11, 12: T12, 13: T13, 14: T14, 15: T15 }
+impl_args_tuple! { 0: T0, 1: T1, 2: T2, 3: T3, 4: T4, 5: T5, 6: T6, 7: T7, 8: T8, 9: T9, 10: T10, 11: T11, 12: T12, 13: T13, 14: T14, 15: T15, 16: T16 }
+impl_args_tuple! { 0: T0, 1: T1, 2: T2, 3: T3, 4: T4, 5: T5, 6: T6, 7: T7, 8: T8, 9: T9, 10: T10, 11: T11, 12: T12, 13: T13, 14: T14, 15: T15, 16: T16, 17: T17 }
+impl_args_tuple! { 0: T0, 1: T1, 2: T2, 3: T3, 4: T4, 5: T5, 6: T6, 7: T7, 8: T8, 9: T9, 10: T10, 11: T11, 12: T12, 13: T13, 14: T14, 15: T15, 16: T16, 17: T17, 18: T18 }
+impl_args_tuple! { 0: T0, 1: T1, 2: T2, 3: T3, 4: T4, 5: T5, 6: T6, 7: T7, 8: T8, 9: T9, 10: T10, 11: T11, 12: T12, 13: T13, 14: T14, 15: T15, 16: T16, 17: T17, 18: T18, 19: T19 }
+impl_args_tuple! { 0: T0, 1: T1, 2: T2, 3: T3, 4: T4, 5: T5, 6: T6, 7: T7, 8: T8, 9: T9, 10: T10, 11: T11, 12: T12, 13: T13, 14: T14, 15: T15, 16: T16, 17: T17, 18: T18, 19: T19, 20: T20 }
+impl_args_tuple! { 0: T0, 1: T1, 2: T2, 3: T3, 4: T4, 5: T5, 6: T6, 7: T7, 8: T8, 9: T9, 10: T10, 11: T11, 12: T12, 13: T13, 14: T14, 15: T15, 16: T16, 17: T17, 18: T18, 19: T19, 20: T20, 21: T21 }
+impl_args_tuple! { 0: T0, 1: T1, 2: T2, 3: T3, 4: T4, 5: T5, 6: T6, 7: T7, 8: T8, 9: T9, 10: T10, 11: T11, 12: T12, 13: T13, 14: T14, 15: T15, 16: T16, 17: T17, 18: T18, 19: T19, 20: T20, 21: T21, 22: T22 }
+impl_args_tuple! { 0: T0, 1: T1, 2: T2, 3: T3, 4: T4, 5: T5, 6: T6, 7: T7, 8: T8, 9: T9, 10: T10, 11: T11, 12: T12, 13: T13, 14: T14, 15: T15, 16: T16, 17: T17, 18: T18, 19: T19, 20: T20, 21: T21, 22: T22, 23: T23 }
+impl_args_tuple! { 0: T0, 1: T1, 2: T2, 3: T3, 4: T4, 5: T5, 6: T6, 7: T7, 8: T8, 9: T9, 10: T10, 11: T11, 12: T12, 13: T13, 14: T14, 15: T15, 16: T16, 17: T17, 18: T18, 19: T19, 20: T20, 21: T21, 22: T22, 23: T23, 24: T24 }
+impl_args_tuple! { 0: T0, 1: T1, 2: T2, 3: T3, 4: T4, 5: T5, 6: T6, 7: T7, 8: T8, 9: T9, 10: T10, 11: T11, 12: T12, 13: T13, 14: T14, 15: T15, 16: T16, 17: T17, 18: T18, 19: T19, 20: T20, 21: T21, 22: T22, 23: T23, 24: T24, 25: T25 }
+impl_args_tuple! { 0: T0, 1: T1, 2: T2, 3: T3, 4: T4, 5: T5, 6: T6, 7: T7, 8: T8, 9: T9, 10: T10, 11: T11, 12: T12, 13: T13, 14: T14, 15: T15, 16: T16, 17: T17, 18: T18, 19: T19, 20: T20, 21: T21, 22: T22, 23: T23, 24: T24, 25: T25, 26: T26 }
+impl_args_tuple! { 0: T0, 1: T1, 2: T2, 3: T3, 4: T4, 5: T5, 6: T6, 7: T7, 8: T8, 9: T9, 10: T10, 11: T11, 12: T12, 13: T13, 14: T14, 15: T15, 16: T16, 17: T17, 18: T18, 19: T19, 20: T20, 21: T21, 22: T22, 23: T23, 24: T24, 25: T25, 26: T26, 27: T27 }
+impl_args_tuple! { 0: T0, 1: T1, 2: T2, 3: T3, 4: T4, 5: T5, 6: T6, 7: T7, 8: T8, 9: T9, 10: T10, 11: T11, 12: T12, 13: T13, 14: T14, 15: T15, 16: T16, 17: T17, 18: T18, 19: T19, 20: T20, 21: T21, 22: T22, 23: T23, 24: T24, 25: T25, 26: T26, 27: T27, 28: T28 }
+impl_args_tuple! { 0: T0, 1: T1, 2: T2, 3: T3, 4: T4, 5: T5, 6: T6, 7: T7, 8: T8, 9: T9, 10: T10, 11: T11, 12: T12, 13: T13, 14: T14, 15: T15, 16: T16, 17: T17, 18: T18, 19: T19, 20: T20, 21: T21, 22: T22, 23: T23, 24: T24, 25: T25, 26: T26, 27: T27, 28: T28, 29: T29 }
+impl_args_tuple! { 0: T0, 1: T1, 2: T2, 3: T3, 4: T4, 5: T5, 6: T6, 7: T7, 8: T8, 9: T9, 10: T10, 11: T11, 12: T12, 13: T13, 14: T14, 15: T15, 16: T16, 17: T17, 18: T18, 19: T19, 20: T20, 21: T21, 22: T22, 23: T23, 24: T24, 25: T25, 26: T26, 27: T27, 28: T28, 29: T29, 30: T30 }
+impl_args_tuple! { 0: T0, 1: T1, 2: T2, 3: T3, 4: T4, 5: T5, 6: T6, 7: T7, 8: T8, 9: T9, 10: T10, 11: T11, 12: T12, 13: T13, 14: T14, 15: T15, 16: T16, 17: T17, 18: T18, 19: T19, 20: T20, 21: T21, 22: T22, 23: T23, 24: T24, 25: T25, 26: T26, 27: T27, 28: T28, 29: T29, 30: T30, 31: T31 }
+
 ///////////////////////////////////////////////////////////////////////////////
 
 /// A trait to describe any kind of type that can be called.
@@ -163,54 +224,56 @@ pub trait Callable<A, T> {
 }
 
 macro_rules! impl_callable_fnonce {
-    ($($t:ident),*) => {
-        impl<F, O, A, $($t,)*> Callable<A, ($($t,)*)> for F
+    ($($t:ident: $n:ident),*) => {
+        impl<F, O, A, $($t,)* $(const $n: usize,)*> Callable<A, ($(Tagged<$t, $n>,)*)> for F
         where
             F: FnOnce($($t),*) -> O,
-            $(A: Args<$t>,)*
+            $(A: Args<Tagged<$t, $n>>,)*
         {
             type Output = O;
 
+            #[allow(non_snake_case)]
             fn call(self, _args: A) -> Self::Output {
-                (self)($(<A as Args<$t>>::get(&_args)),*)
+                $(let $t = <A as Args<Tagged<$t, $n>>>::get(&_args);)*
+                (self)($($t.0,)*)
             }
         }
     };
 }
 
 impl_callable_fnonce! {}
-impl_callable_fnonce! { T0 }
-impl_callable_fnonce! { T0, T1 }
-impl_callable_fnonce! { T0, T1, T2 }
-impl_callable_fnonce! { T0, T1, T2, T3 }
-impl_callable_fnonce! { T0, T1, T2, T3, T4 }
-impl_callable_fnonce! { T0, T1, T2, T3, T4, T5 }
-impl_callable_fnonce! { T0, T1, T2, T3, T4, T5, T6 }
-impl_callable_fnonce! { T0, T1, T2, T3, T4, T5, T6, T7 }
-impl_callable_fnonce! { T0, T1, T2, T3, T4, T5, T6, T7, T8 }
-impl_callable_fnonce! { T0, T1, T2, T3, T4, T5, T6, T7, T8, T9 }
-impl_callable_fnonce! { T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 }
-impl_callable_fnonce! { T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11 }
-impl_callable_fnonce! { T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12 }
-impl_callable_fnonce! { T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13 }
-impl_callable_fnonce! { T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14 }
-impl_callable_fnonce! { T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15 }
-impl_callable_fnonce! { T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16 }
-impl_callable_fnonce! { T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17 }
-impl_callable_fnonce! { T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18 }
-impl_callable_fnonce! { T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19 }
-impl_callable_fnonce! { T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20 }
-impl_callable_fnonce! { T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21 }
-impl_callable_fnonce! { T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22 }
-impl_callable_fnonce! { T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23 }
-impl_callable_fnonce! { T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24 }
-impl_callable_fnonce! { T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25 }
-impl_callable_fnonce! { T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26 }
-impl_callable_fnonce! { T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27 }
-impl_callable_fnonce! { T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28 }
-impl_callable_fnonce! { T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29 }
-impl_callable_fnonce! { T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30 }
-impl_callable_fnonce! { T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31 }
+impl_callable_fnonce! { T0: N0 }
+impl_callable_fnonce! { T0: N0, T1: N1 }
+impl_callable_fnonce! { T0: N0, T1: N1, T2: N2 }
+impl_callable_fnonce! { T0: N0, T1: N1, T2: N2, T3: N3 }
+impl_callable_fnonce! { T0: N0, T1: N1, T2: N2, T3: N3, T4: N4 }
+impl_callable_fnonce! { T0: N0, T1: N1, T2: N2, T3: N3, T4: N4, T5: N5 }
+impl_callable_fnonce! { T0: N0, T1: N1, T2: N2, T3: N3, T4: N4, T5: N5, T6: N6 }
+impl_callable_fnonce! { T0: N0, T1: N1, T2: N2, T3: N3, T4: N4, T5: N5, T6: N6, T7: N7 }
+impl_callable_fnonce! { T0: N0, T1: N1, T2: N2, T3: N3, T4: N4, T5: N5, T6: N6, T7: N7, T8: N8 }
+impl_callable_fnonce! { T0: N0, T1: N1, T2: N2, T3: N3, T4: N4, T5: N5, T6: N6, T7: N7, T8: N8, T9: N9 }
+impl_callable_fnonce! { T0: N0, T1: N1, T2: N2, T3: N3, T4: N4, T5: N5, T6: N6, T7: N7, T8: N8, T9: N9, T10: N10 }
+impl_callable_fnonce! { T0: N0, T1: N1, T2: N2, T3: N3, T4: N4, T5: N5, T6: N6, T7: N7, T8: N8, T9: N9, T10: N10, T11: N11 }
+impl_callable_fnonce! { T0: N0, T1: N1, T2: N2, T3: N3, T4: N4, T5: N5, T6: N6, T7: N7, T8: N8, T9: N9, T10: N10, T11: N11, T12: N12 }
+impl_callable_fnonce! { T0: N0, T1: N1, T2: N2, T3: N3, T4: N4, T5: N5, T6: N6, T7: N7, T8: N8, T9: N9, T10: N10, T11: N11, T12: N12, T13: N13 }
+impl_callable_fnonce! { T0: N0, T1: N1, T2: N2, T3: N3, T4: N4, T5: N5, T6: N6, T7: N7, T8: N8, T9: N9, T10: N10, T11: N11, T12: N12, T13: N13, T14: N14 }
+impl_callable_fnonce! { T0: N0, T1: N1, T2: N2, T3: N3, T4: N4, T5: N5, T6: N6, T7: N7, T8: N8, T9: N9, T10: N10, T11: N11, T12: N12, T13: N13, T14: N14, T15: N15 }
+impl_callable_fnonce! { T0: N0, T1: N1, T2: N2, T3: N3, T4: N4, T5: N5, T6: N6, T7: N7, T8: N8, T9: N9, T10: N10, T11: N11, T12: N12, T13: N13, T14: N14, T15: N15, T16: N16 }
+impl_callable_fnonce! { T0: N0, T1: N1, T2: N2, T3: N3, T4: N4, T5: N5, T6: N6, T7: N7, T8: N8, T9: N9, T10: N10, T11: N11, T12: N12, T13: N13, T14: N14, T15: N15, T16: N16, T17: N17 }
+impl_callable_fnonce! { T0: N0, T1: N1, T2: N2, T3: N3, T4: N4, T5: N5, T6: N6, T7: N7, T8: N8, T9: N9, T10: N10, T11: N11, T12: N12, T13: N13, T14: N14, T15: N15, T16: N16, T17: N17, T18: N18 }
+impl_callable_fnonce! { T0: N0, T1: N1, T2: N2, T3: N3, T4: N4, T5: N5, T6: N6, T7: N7, T8: N8, T9: N9, T10: N10, T11: N11, T12: N12, T13: N13, T14: N14, T15: N15, T16: N16, T17: N17, T18: N18, T19: N19 }
+impl_callable_fnonce! { T0: N0, T1: N1, T2: N2, T3: N3, T4: N4, T5: N5, T6: N6, T7: N7, T8: N8, T9: N9, T10: N10, T11: N11, T12: N12, T13: N13, T14: N14, T15: N15, T16: N16, T17: N17, T18: N18, T19: N19, T20: N20 }
+impl_callable_fnonce! { T0: N0, T1: N1, T2: N2, T3: N3, T4: N4, T5: N5, T6: N6, T7: N7, T8: N8, T9: N9, T10: N10, T11: N11, T12: N12, T13: N13, T14: N14, T15: N15, T16: N16, T17: N17, T18: N18, T19: N19, T20: N20, T21: N21 }
+impl_callable_fnonce! { T0: N0, T1: N1, T2: N2, T3: N3, T4: N4, T5: N5, T6: N6, T7: N7, T8: N8, T9: N9, T10: N10, T11: N11, T12: N12, T13: N13, T14: N14, T15: N15, T16: N16, T17: N17, T18: N18, T19: N19, T20: N20, T21: N21, T22: N22 }
+impl_callable_fnonce! { T0: N0, T1: N1, T2: N2, T3: N3, T4: N4, T5: N5, T6: N6, T7: N7, T8: N8, T9: N9, T10: N10, T11: N11, T12: N12, T13: N13, T14: N14, T15: N15, T16: N16, T17: N17, T18: N18, T19: N19, T20: N20, T21: N21, T22: N22, T23: N23 }
+impl_callable_fnonce! { T0: N0, T1: N1, T2: N2, T3: N3, T4: N4, T5: N5, T6: N6, T7: N7, T8: N8, T9: N9, T10: N10, T11: N11, T12: N12, T13: N13, T14: N14, T15: N15, T16: N16, T17: N17, T18: N18, T19: N19, T20: N20, T21: N21, T22: N22, T23: N23, T24: N24 }
+impl_callable_fnonce! { T0: N0, T1: N1, T2: N2, T3: N3, T4: N4, T5: N5, T6: N6, T7: N7, T8: N8, T9: N9, T10: N10, T11: N11, T12: N12, T13: N13, T14: N14, T15: N15, T16: N16, T17: N17, T18: N18, T19: N19, T20: N20, T21: N21, T22: N22, T23: N23, T24: N24, T25: N25 }
+impl_callable_fnonce! { T0: N0, T1: N1, T2: N2, T3: N3, T4: N4, T5: N5, T6: N6, T7: N7, T8: N8, T9: N9, T10: N10, T11: N11, T12: N12, T13: N13, T14: N14, T15: N15, T16: N16, T17: N17, T18: N18, T19: N19, T20: N20, T21: N21, T22: N22, T23: N23, T24: N24, T25: N25, T26: N26 }
+impl_callable_fnonce! { T0: N0, T1: N1, T2: N2, T3: N3, T4: N4, T5: N5, T6: N6, T7: N7, T8: N8, T9: N9, T10: N10, T11: N11, T12: N12, T13: N13, T14: N14, T15: N15, T16: N16, T17: N17, T18: N18, T19: N19, T20: N20, T21: N21, T22: N22, T23: N23, T24: N24, T25: N25, T26: N26, T27: N27 }
+impl_callable_fnonce! { T0: N0, T1: N1, T2: N2, T3: N3, T4: N4, T5: N5, T6: N6, T7: N7, T8: N8, T9: N9, T10: N10, T11: N11, T12: N12, T13: N13, T14: N14, T15: N15, T16: N16, T17: N17, T18: N18, T19: N19, T20: N20, T21: N21, T22: N22, T23: N23, T24: N24, T25: N25, T26: N26, T27: N27, T28: N28 }
+impl_callable_fnonce! { T0: N0, T1: N1, T2: N2, T3: N3, T4: N4, T5: N5, T6: N6, T7: N7, T8: N8, T9: N9, T10: N10, T11: N11, T12: N12, T13: N13, T14: N14, T15: N15, T16: N16, T17: N17, T18: N18, T19: N19, T20: N20, T21: N21, T22: N22, T23: N23, T24: N24, T25: N25, T26: N26, T27: N27, T28: N28, T29: N29 }
+impl_callable_fnonce! { T0: N0, T1: N1, T2: N2, T3: N3, T4: N4, T5: N5, T6: N6, T7: N7, T8: N8, T9: N9, T10: N10, T11: N11, T12: N12, T13: N13, T14: N14, T15: N15, T16: N16, T17: N17, T18: N18, T19: N19, T20: N20, T21: N21, T22: N22, T23: N23, T24: N24, T25: N25, T26: N26, T27: N27, T28: N28, T29: N29, T30: N30 }
+impl_callable_fnonce! { T0: N0, T1: N1, T2: N2, T3: N3, T4: N4, T5: N5, T6: N6, T7: N7, T8: N8, T9: N9, T10: N10, T11: N11, T12: N12, T13: N13, T14: N14, T15: N15, T16: N16, T17: N17, T18: N18, T19: N19, T20: N20, T21: N21, T22: N22, T23: N23, T24: N24, T25: N25, T26: N26, T27: N27, T28: N28, T29: N29, T30: N30, T31: N31 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -291,83 +354,117 @@ where
     f.call(args)
 }
 
-#[cfg(all(test, feature = "derive"))]
+#[cfg(test)]
 mod tests {
     use super::*;
 
-    #[derive(Clone)]
-    struct A;
-    #[derive(Clone)]
-    struct B;
-    #[derive(Clone)]
-    struct C;
-    #[derive(Clone)]
-    struct D;
-
-    #[derive(MagicArgs)]
-    struct Args(A, B, C, D);
-
-    const fn args() -> Args {
-        Args(A, B, C, D)
-    }
-
     #[test]
     fn test_sync_functions() {
-        let args = args();
+        let args = (42u32, 31i32);
 
-        fn f0() {}
-        fn f1(_a: A) {}
-        fn f2(_c: C, _d: D) {}
-        fn f3(_a: A, _b: B, _c: C, _d: D) {}
+        fn f0() -> i32 {
+            42
+        }
 
-        apply(f0, &args);
-        apply(f1, &args);
-        apply(f2, &args);
-        apply(f3, &args);
+        fn f1(x: u32) -> i32 {
+            x as i32
+        }
+
+        fn f2(y: i32, x: u32) -> i32 {
+            y + x as i32
+        }
+
+        fn f3(x: u32, y: u32) -> u32 {
+            x + y
+        }
+
+        assert_eq!(args.apply(f0), 42);
+        assert_eq!(args.apply(f1), 42);
+        assert_eq!(args.apply(f2), 73);
+        assert_eq!(args.apply(f3), 84);
     }
 
     #[test]
     fn test_sync_closures() {
-        let args = args();
+        let args = (42u32, 31i32);
 
-        let f0 = || {};
-        let f1 = |_a: A| {};
-        let f2 = |_c: C, _d: D| {};
-        let f3 = |_a: A, _b: B, _c: C, _d: D| {};
+        let data = &[1_i32, 2, 3, 4, 5];
 
-        apply(f0, &args);
-        apply(f1, &args);
-        apply(f2, &args);
-        apply(f3, &args);
+        assert_eq!(args.apply(|| { data.iter().sum::<i32>() }), 15);
+        assert_eq!(
+            args.apply(|x: u32| { data.iter().sum::<i32>() + x as i32 }),
+            57
+        );
+        assert_eq!(
+            args.apply(|y: i32, x: u32| { data.iter().sum::<i32>() + y + x as i32 }),
+            88
+        );
+        assert_eq!(
+            args.apply(|x: u32, y: u32| { data.iter().sum::<i32>() as u32 + x + y }),
+            99
+        );
     }
 
     #[test]
-    fn test_async_functions() {
-        let args = args();
+    fn test_async() {
+        fn assert_future<F: Future>(_f: F) {}
 
-        async fn f0() {}
-        async fn f1(_a: A) {}
-        async fn f2(_c: C, _d: D) {}
-        async fn f3(_a: A, _b: B, _c: C, _d: D) {}
+        let args = (42u32, 31i32);
 
-        drop(apply(f0, &args));
-        drop(apply(f1, &args));
-        drop(apply(f2, &args));
-        drop(apply(f3, &args));
+        async fn f0() -> i32 {
+            42
+        }
+
+        async fn f1(x: u32) -> i32 {
+            x as i32
+        }
+
+        async fn f2(y: i32, x: u32) -> i32 {
+            y + x as i32
+        }
+
+        async fn f3(x: u32, y: u32) -> u32 {
+            x + y
+        }
+
+        assert_future(args.apply(f0));
+        assert_future(args.apply(f1));
+        assert_future(args.apply(f2));
+        assert_future(args.apply(f3));
     }
 
-    #[test]
-    fn test_async_closures() {
-        let args = args();
+    #[cfg(feature = "derive")]
+    mod derive {
+        use super::*;
 
-        let f0 = async || {};
-        let f1 = async |_a: A| {};
-        let f2 = async |_c: C, _d: D| {};
-        let f3 = async |_a: A, _b: B, _c: C, _d: D| {};
+        #[test]
+        fn test_derive_tuple() {
+            #[derive(MagicArgs)]
+            struct MyArgs(i32, u32);
 
-        drop(apply(f0, &args));
-        drop(apply(f1, &args));
-        drop(apply(f2, &args));
-        drop(apply(f3, &args));
+            let args = MyArgs(42, 31);
+            assert_eq!(args.apply(|x: u32, _y: i32| x as i32), 31);
+        }
+
+        #[test]
+        fn test_derive_struct() {
+            #[derive(MagicArgs)]
+            struct MyArgs {
+                x: i32,
+                y: u32,
+            }
+
+            let args = MyArgs { x: 42, y: 31 };
+            assert_eq!(args.apply(|x: u32, _y: i32| x as i32), 31);
+        }
+
+        #[test]
+        fn test_derive_struct_lifetime() {
+            #[derive(MagicArgs)]
+            struct MyArgs<'a>(&'a str);
+
+            let args = MyArgs("Hello, World!");
+            assert_eq!(args.apply(|x: &str| x.len()), 13);
+        }
     }
 }

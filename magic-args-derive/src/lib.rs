@@ -37,6 +37,9 @@ pub fn magic_args_derive(input: proc_macro::TokenStream) -> proc_macro::TokenStr
         panic!("MagicArgs can only be derived on structs")
     };
 
+    let item_name = item.ident.clone();
+    let (impl_generics, type_generics, where_clause) = item.generics.split_for_impl();
+
     let mut output = TokenStream::new();
 
     let mut types_seen = HashSet::new();
@@ -54,7 +57,7 @@ pub fn magic_args_derive(input: proc_macro::TokenStream) -> proc_macro::TokenStr
             .iter()
             .map(|attr| attr.parse_args().unwrap())
             .for_each(|attr: MagicArgsAttribute| match attr {
-                MagicArgsAttribute::Skip { .. } => skip = true,
+                MagicArgsAttribute::Skip => skip = true,
             });
 
         if skip {
@@ -62,22 +65,19 @@ pub fn magic_args_derive(input: proc_macro::TokenStream) -> proc_macro::TokenStr
         }
 
         let field_type = field.ty;
-        let item_name = item.ident.clone();
 
         let field_accessor = match field.ident {
             Some(ident) => ident.to_token_stream(),
             None => idx.to_token_stream(),
         };
 
-        let (impl_generics, type_generics, where_clause) = item.generics.split_for_impl();
-
         output.extend(quote! {
-            impl #impl_generics ::magic_args::Args< #field_type > for #item_name #type_generics
+            impl #impl_generics ::magic_args::Args<::magic_args::__private::Tagged<#field_type, #idx>> for #item_name #type_generics
                 #where_clause
             {
                 #[inline]
-                fn get(&self) -> #field_type {
-                    ::core::clone::Clone::clone(&self.#field_accessor)
+                fn get(&self) -> ::magic_args::__private::Tagged<#field_type, #idx> {
+                    ::magic_args::__private::Tagged(::core::clone::Clone::clone(&self.#field_accessor))
                 }
             }
         });
