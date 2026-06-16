@@ -221,6 +221,11 @@
 #![no_std]
 extern crate self as magic_args;
 
+mod extend;
+pub use self::extend::Extend;
+
+///////////////////////////////////////////////////////////////////////////////
+
 #[cfg(feature = "derive")]
 /// A derive macro to help you create argument sets.
 ///
