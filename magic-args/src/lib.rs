@@ -216,7 +216,7 @@
 //! [axum's route handlers]: https://docs.rs/axum/latest/axum/handler/index.html
 //! [`std::cell::RefCell`]: https://doc.rust-lang.org/stable/std/cell/struct.RefCell.html
 
-#![cfg_attr(docsrs, feature(doc_auto_cfg))]
+#![cfg_attr(docsrs, feature(doc_cfg))]
 #![forbid(unsafe_code)]
 #![no_std]
 extern crate self as magic_args;
