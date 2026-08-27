@@ -26,8 +26,8 @@ use core::ptr::NonNull;
 ///
 /// ```
 /// # use magic_args::Mut;
-/// fn f(y: Mut<&mut i32>, x: i32) {
-///     *y += 2 * x;
+/// fn f(mut y: Mut<&mut i32>, x: i32) {
+///     **y += 2 * x;
 /// }
 ///
 /// let x: i32 = 42;
