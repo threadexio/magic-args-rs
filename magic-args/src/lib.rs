@@ -217,9 +217,11 @@
 //! [`std::cell::RefCell`]: https://doc.rust-lang.org/stable/std/cell/struct.RefCell.html
 
 #![cfg_attr(docsrs, feature(doc_cfg))]
-#![forbid(unsafe_code)]
 #![no_std]
 extern crate self as magic_args;
+
+mod r#mut;
+pub use self::r#mut::Mut;
 
 mod extend;
 pub use self::extend::Extend;
@@ -459,6 +461,8 @@ where
 {
     f.call(args)
 }
+
+///////////////////////////////////////////////////////////////////////////////
 
 #[cfg(test)]
 mod tests {
