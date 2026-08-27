@@ -6,7 +6,7 @@ members = [
 ]
 
 [workspace.package]
-version = "0.1.3"
+version = "0.1.4"
 edition = "2024"
 documentation = "https://docs.rs/magic-args"
 homepage = "https://git.31c0.org/threadexio/magic-args-rs"
