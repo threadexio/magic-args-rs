@@ -26,3 +26,6 @@ magic-args-derive = { version = "0.1.3", path = "../magic-args-derive", optional
 derive = ["dep:magic-args-derive"]
 
 default = ["derive"]
+
+[lints]
+workspace = true

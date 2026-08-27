@@ -3,8 +3,10 @@
 /// This trait is mainly used for extending tuples but you can implement it for
 /// whatever you like.
 pub trait Extend<T> {
+    #[expect(missing_docs)]
     type Output;
 
+    #[expect(missing_docs)]
     fn extend(self, item: T) -> Self::Output;
 }
 

@@ -1,3 +1,5 @@
+#![expect(missing_docs, clippy::panic)]
+
 extern crate proc_macro;
 
 use std::collections::HashSet;
@@ -16,7 +18,7 @@ enum MagicArgsAttribute {
 }
 
 impl Parse for MagicArgsAttribute {
-    fn parse(input: ParseStream) -> syn::Result<Self> {
+    fn parse(input: ParseStream<'_>) -> syn::Result<Self> {
         let lookahead = input.lookahead1();
 
         if lookahead.peek(keyword::skip) {
@@ -29,6 +31,7 @@ impl Parse for MagicArgsAttribute {
     }
 }
 
+#[expect(clippy::missing_panics_doc)]
 #[proc_macro_derive(MagicArgs, attributes(magic_args))]
 pub fn magic_args_derive(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let item = syn::parse_macro_input!(input as DeriveInput);
@@ -55,7 +58,7 @@ pub fn magic_args_derive(input: proc_macro::TokenStream) -> proc_macro::TokenStr
         field
             .attrs
             .iter()
-            .map(|attr| attr.parse_args().unwrap())
+            .map(|attr| attr.parse_args().expect("cannot parse args"))
             .for_each(|attr: MagicArgsAttribute| match attr {
                 MagicArgsAttribute::Skip => skip = true,
             });

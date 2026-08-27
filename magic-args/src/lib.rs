@@ -183,31 +183,6 @@
 //! assert_eq!(y, 73);
 //! ```
 //!
-//! - Passing non-[`Clone`] arguments is not ideal. Arguments need to be
-//!   [`Clone`] so the following is well-defined:
-//!
-//! ```
-//! # use magic_args::apply;
-//! fn f(x: i32, y: i32) -> i32 { x + y }
-//!
-//! let args = (42,);
-//! let y = apply(f, args);
-//! assert_eq!(y, 84)
-//! ```
-//!
-//!   Notice how this is different than the example before; we are only passing
-//!   one [`i32`], not two so there is no ambiguity here. In this case, the
-//!   value of [`i32`] is [`Clone::clone`]d and passed both as `x` and as `y`.
-//!   Meaning `f` could be rewritten as:
-//!
-//! ```
-//! fn f(x: i32) -> i32 { x * 2 }
-//! ```
-//!
-//!   It is possible to pass non-[`Clone`] arguments, but that needs runtime
-//!   checking to ensure only one instance exists. This can be done with
-//!   [`std::cell::RefCell`] if necessary.
-//!
 //! ---
 //!
 //! Enjoy responsibly!
@@ -280,6 +255,7 @@ where
 
 #[doc(hidden)]
 pub mod __private {
+    #[expect(missing_debug_implementations)]
     #[derive(Clone)]
     pub struct Tagged<T, const N: usize>(pub T);
 }
@@ -346,8 +322,10 @@ impl_args_tuple! { 0: T0, 1: T1, 2: T2, 3: T3, 4: T4, 5: T5, 6: T6, 7: T7, 8: T8
 /// This trait and the [`Args`] trait are the foundation of the crate. It
 /// provides [`Callable::call`] which is how [`apply`] (and friends) work.
 pub trait Callable<A, T> {
+    #[expect(missing_docs)]
     type Output;
 
+    #[expect(missing_docs)]
     fn call(self, args: A) -> Self::Output;
 }
 
@@ -469,6 +447,7 @@ mod tests {
     use super::*;
 
     #[test]
+    #[expect(clippy::cast_possible_wrap)]
     fn test_sync_functions() {
         let args = (42u32, 31i32);
 
@@ -495,6 +474,7 @@ mod tests {
     }
 
     #[test]
+    #[expect(clippy::cast_possible_wrap)]
     fn test_sync_closures() {
         let args = (42u32, 31i32);
 
@@ -516,6 +496,7 @@ mod tests {
     }
 
     #[test]
+    #[expect(clippy::cast_possible_wrap)]
     fn test_async() {
         fn assert_future<F: Future>(_f: F) {}
 
@@ -548,6 +529,7 @@ mod tests {
         use super::*;
 
         #[test]
+        #[expect(clippy::cast_possible_wrap)]
         fn test_derive_tuple() {
             #[derive(MagicArgs)]
             struct MyArgs(i32, u32);
@@ -557,6 +539,7 @@ mod tests {
         }
 
         #[test]
+        #[expect(clippy::cast_possible_wrap)]
         fn test_derive_struct() {
             #[derive(MagicArgs)]
             struct MyArgs {
